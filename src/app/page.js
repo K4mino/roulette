@@ -29,6 +29,7 @@ export default function Home() {
       snapShot.docs.forEach((doc) => {
         list.push(doc.data());
       });
+      setItems(list);
       localStorage.setItem("prizes", JSON.stringify(list));
     });
     
