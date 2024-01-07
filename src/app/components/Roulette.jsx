@@ -47,17 +47,17 @@ const Roulette = ({ items }) => {
 
   function fillArrayWithChances(targetSize, prizes, rotationCount = 1) {
     const resultArray = [];
-    const totalChance = prizes.reduce((sum, prize) => sum + prize.chance, 0); // сумма всех шансов
-    const modifiedChances = prizes.map(prize => prize.chance / totalChance * Math.pow(rotationCount, -1)); // измененные шансы, которые уменьшаются с ростом rotationCount
+    const totalChance = prizes.reduce((sum, prize) => sum + prize.chance, 0); 
+    const modifiedChances = prizes.map(prize => prize.chance / totalChance * Math.pow(rotationCount, -1)); 
     
     while (resultArray.length < targetSize) {
-    let randomValue = Math.random(); // случайное число от 0 до 1
-    let index = 0; // индекс текущего приза
-    while (randomValue > 0 && index < prizes.length) { // перебираем призы, пока не найдем подходящий
-    randomValue -= modifiedChances[index]; // вычитаем измененный шанс приза из случайного числа
-    index++; // переходим к следующему призу
+    let randomValue = Math.random(); 
+    let index = 0; 
+    while (randomValue > 0 && index < prizes.length) {
+    randomValue -= modifiedChances[index]; 
+    index++; 
     }
-    resultArray.push(prizes[index - 1]); // добавляем приз в результат
+    resultArray.push(prizes[index - 1]);
     }
     console.log(resultArray)
     return resultArray;

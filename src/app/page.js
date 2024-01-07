@@ -14,7 +14,13 @@ import SideMenu from "./components/SideMenu";
 import { db } from "./firebase";
 
 export default function Home() {
-  const [items, setItems] = useState(JSON.parse(localStorage.getItem("prizes")) || []);
+  const [items, setItems] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const localStorageData = localStorage.getItem('prizes');
+      return localStorageData ? JSON.parse(localStorageData) : [];
+    }
+    return []
+  });
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
   useEffect(() => {
