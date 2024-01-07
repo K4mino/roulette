@@ -1,0 +1,17 @@
+[
+    { "name": "КОЛА СПРАЙТ ФАНТА", "chance": 0.12 },
+    { "name": "РОМ.СЕНДВИЧ ПАНИНИ", "chance": 0.12 },
+    { "name": "СЕНДВИЧ ПАНИНИ", "chance": 0.12 },
+    { "name": "GORILLA", "chance": 0.12 },
+    { "name": "REDBULL MONSTER", "chance": 0.12 },
+    { "name": "1000 ТГ", "chance": 0.1 },
+    { "name": "2000 ТГ", "chance": 0.09 },
+    { "name": "3000 ТГ", "chance": 0.08 },
+    { "name": "ПАКЕТ УТРО", "chance": 0.04 },
+    { "name": "ПАКЕТ ТУРБО НОЧЬ", "chance": 0.03 },
+    { "name": "ПАКЕТ ДЕНЬ", "chance": 0.03 },
+    { "name": "50000 ТГ", "chance": 0.015 },
+    { "name": "100000 ТГ", "chance": 0.01 },
+    { "name": "200000 ТГ", "chance": 0.005 }
+]
+  
