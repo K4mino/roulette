@@ -14,6 +14,7 @@ import {
   getDocs,
   updateDoc,
   increment,
+  Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -23,17 +24,29 @@ const Roulette = ({ items }) => {
   const [isSpinEnd, setIsSpinEnd] = useState(false);
   const [isReplay, setIsReplay] = useState(false);
   const [winnerId, setWinnerId] = useState(-1);
-  const [nickname, setNickname] = useState("");
+  //const [nickname, setNickname] = useState("");
   const prizesRef = useRef(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [addTimeout, setAddTimeOut] = useState(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
-    const arr = fillArrayWithChances(18, items);
+    const arr = new Array(18).fill({}); //fillArrayWithChances(18, items);
     setPrizes(arr);
 
   }, []);
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    const emptyArr = new Array(18).fill({name:""});
+    setPrizes(emptyArr);
+    prepare()
+  }
   function transitionEndHandler() {
     setIsSpinning(false);
     setIsSpinEnd(true);
+    
+    setModalVisible(true);
   }
 
   function prepare() {
@@ -59,7 +72,7 @@ const Roulette = ({ items }) => {
     }
     resultArray.push(prizes[index - 1]);
     }
-    console.log(resultArray)
+  
     return resultArray;
   }
 
@@ -82,9 +95,9 @@ const Roulette = ({ items }) => {
   
 
   const load = async (tempWinnerId) => {
-    let data;
+   /* let data;
     let spinCount = 1;
-    const collectionRef = collection(db, "participants");
+   const collectionRef = collection(db, "participants");
     const q = query(collectionRef, where("name", "==", nickname));
     const querySnapshot = await getDocs(q);
 
@@ -123,20 +136,25 @@ const Roulette = ({ items }) => {
       }
     } catch (error) {
       console.log(error);
-    }
+    } */
 
-    const tempPrizes = fillArrayWithChances(59, items,spinCount);
+    const tempPrizes = fillArrayWithChances(150, items);
     const winner = selectWinner(tempPrizes);
 
     const id = uuidv4();
     try {
-      await setDoc(doc(db, "history", id), {
-        id,
-        prize: winner.name,
-        user: nickname,
-      });
+      const timeoutId = setTimeout(async() => {
+        await setDoc(doc(db, "history", id), {
+          id,
+          prize: winner.name,
+          date: Timestamp.now()
+        });
+      },12000)
+      setAddTimeOut(timeoutId)
     } catch (error) {
       console.log(error);
+    } finally{
+      clearTimeout(addTimeout)
     }
 
     const finalPrizes = getPrizes(tempPrizes, 150, winner, tempWinnerId);
@@ -154,6 +172,7 @@ const Roulette = ({ items }) => {
 
     setTimeout(() => {
       setIsSpinning(true);
+      audioRef.current.play();
       spin(tempWinnerId, prizesRef);
       setIsReplay(true);
     }, 1000);
@@ -195,9 +214,23 @@ const Roulette = ({ items }) => {
       <Controls
         start={play}
         isDisabled={isSpinning}
-        nickname={nickname}
-        setNickname={setNickname}
       />
+      {modalVisible && !isSpinning && isSpinEnd && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>{prizes[winnerId].name}</h2>
+            <button className="close-button" onClick={handleCloseModal}>
+              Ок
+            </button>
+          </div>
+        </div>
+      )}
+       <audio
+        ref={audioRef}
+        src="/audio.mp3">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
     </div>
   );
 };

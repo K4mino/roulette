@@ -48,7 +48,7 @@ export const spin = (winnerPrizeId, prizeWrapper) => {
     elPrizeWidthHalf +
     randomRange(elPrizeWidthOneTwentieth, 18 * elPrizeWidthOneTwentieth);
 
-  prizeWrapper.current.style.transition = `left 10s ease-out`;
+  prizeWrapper.current.style.transition = `left 10s cubic-bezier(.08,.92,.62,.99)`;
 
   setTimeout(() => {
     prizeWrapper.current.style.left = `-${randStop}px`;

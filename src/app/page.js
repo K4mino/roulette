@@ -12,6 +12,7 @@ import PrizeList from './components/PrizeList'
 import Burger from "./components/Burger";
 import SideMenu from "./components/SideMenu";
 import { db } from "./firebase";
+import HistoryList from "./components/HistoryList";
 
 export default function Home() {
   const [items, setItems] = useState(() => {
@@ -47,6 +48,7 @@ export default function Home() {
       <Burger onClick={() => setIsSideMenuOpen(true)}/>
       <SideMenu isActive={isSideMenuOpen} close={handleCloseMenu}/>
       <Header/>
+      <HistoryList/>
       <RunningStroke/>
       <Roulette items={items}/>
       <PrizeList prizes={items}/>
